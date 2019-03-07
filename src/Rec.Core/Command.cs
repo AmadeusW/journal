@@ -45,9 +45,19 @@ namespace Rec.Core
             RecordedCommand = raw;
         }
 
-        internal bool Matches(string query)
+        internal bool MatchesTopic(string query)
         {
-            return string.Equals(Property, query, StringComparison.InvariantCultureIgnoreCase);
+            return string.IsNullOrEmpty(query) 
+                || string.Equals(Property, query, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        internal bool MatchesApplicableDate(DateTime startDate, DateTime endDate)
+        {
+            if (startDate != default && startDate > ApplicableDate)
+                return false;
+            if (endDate != default && endDate < ApplicableDate)
+                return false;
+            return true;
         }
     }
 }

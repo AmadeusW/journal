@@ -23,15 +23,23 @@ namespace Rec.Core
             _commands.Add(command);
         }
 
-        public IEnumerable<Command> Get(string v)
+        public IEnumerable<Command> Get(
+            string topic = default, 
+            DateTime startDate = default, 
+            DateTime endDate = default)
         {
             for (int i = 0; i < _commands.Count; i++)
             {
                 var command = _commands[i];
-                if (command.Matches(v))
+                if (!command.MatchesTopic(topic))
                 {
-                    yield return command;
+                    continue;
                 }
+                if (!command.MatchesApplicableDate(startDate, endDate))
+                {
+                    continue;
+                }
+                yield return command;
             }
         }
     }
