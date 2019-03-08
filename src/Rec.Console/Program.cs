@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rec.Console
+namespace Rec.Cli
 {
     class Program
     {

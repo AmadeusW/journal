@@ -1,61 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Rec.Core
 {
-    public class Command
+    public abstract class Command
     {
-        public string Property { get; }
-        public string ValueString { get; }
-        public int ValueInt { get; }
-
-        public DateTime ApplicableDate { get; }
-
         public DateTime RecordedDate { get; }
         private string Kind { get; }
         private string RecordedCommand { get; set; }
 
-        public Command(string raw, string kind, DateTime applicableDate, string property, string value)
+        public Command(string raw, string kind)
         {
-            if (String.IsNullOrWhiteSpace(property))
-                throw new ArgumentNullException(nameof(property));
-            Property = property;
-
             if (String.IsNullOrWhiteSpace(kind))
                 throw new ArgumentNullException(nameof(kind));
             Kind = kind;
 
-            if (string.IsNullOrEmpty(value))
-            {
-                ValueString = string.Empty;
-                ValueInt = 1;
-            }
-            else if (Int32.TryParse(value, out int parsed))
-            {
-                ValueString = string.Empty;
-                ValueInt = parsed;
-            }
-            else
-            {
-                ValueString = value;
-                ValueInt = 0;
-            }
-
-            ApplicableDate = applicableDate;
-            RecordedDate = DateTime.UtcNow;
+            if (String.IsNullOrWhiteSpace(raw))
+                throw new ArgumentNullException(nameof(raw));
             RecordedCommand = raw;
+
+            RecordedDate = DateTime.UtcNow;
         }
 
-        internal bool MatchesTopic(string query)
+        internal bool MatchesKind(string query)
         {
-            return string.IsNullOrEmpty(query) 
-                || string.Equals(Property, query, StringComparison.InvariantCultureIgnoreCase);
+            return string.IsNullOrEmpty(query)
+                || string.Equals(Kind, query, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        internal bool MatchesApplicableDate(DateTime startDate, DateTime endDate)
+        internal bool MatchesRecordedDate(DateTime startDate, DateTime endDate)
         {
-            if (startDate != default && startDate > ApplicableDate)
+            if (startDate != default && startDate > RecordedDate)
                 return false;
-            if (endDate != default && endDate < ApplicableDate)
+            if (endDate != default && endDate < RecordedDate)
                 return false;
             return true;
         }

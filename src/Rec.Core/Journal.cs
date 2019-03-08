@@ -23,22 +23,41 @@ namespace Rec.Core
             _commands.Add(command);
         }
 
-        public IEnumerable<Command> Get(
+        public IEnumerable<DataCommand> GetData(
             string topic = default, 
             DateTime startDate = default, 
             DateTime endDate = default)
         {
             for (int i = 0; i < _commands.Count; i++)
             {
-                var command = _commands[i];
+                if (!(_commands[i] is DataCommand command))
+                    continue;
+
                 if (!command.MatchesTopic(topic))
-                {
                     continue;
-                }
+
                 if (!command.MatchesApplicableDate(startDate, endDate))
-                {
                     continue;
-                }
+
+                yield return command;
+            }
+        }
+
+        public IEnumerable<Command> GetActions(
+            string kind = default,
+            DateTime startDate = default,
+            DateTime endDate = default)
+        {
+            for (int i = 0; i < _commands.Count; i++)
+            {
+                var command = _commands[i];
+
+                if (!command.MatchesKind(kind))
+                    continue;
+
+                if (!command.MatchesRecordedDate(startDate, endDate))
+                    continue;
+
                 yield return command;
             }
         }

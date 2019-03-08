@@ -10,9 +10,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rec.Test", "Rec.Test\Rec.Te
 		{99AC9FDD-DDC7-4F87-908D-AB24C2436650} = {99AC9FDD-DDC7-4F87-908D-AB24C2436650}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rec.Console", "Rec.Console\Rec.Console.csproj", "{BE702129-7FB1-4BEA-9730-1E0A5BC38FED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rec.Cli", "Rec.Console\Rec.Cli.csproj", "{BE702129-7FB1-4BEA-9730-1E0A5BC38FED}"
 	ProjectSection(ProjectDependencies) = postProject
 		{99AC9FDD-DDC7-4F87-908D-AB24C2436650} = {99AC9FDD-DDC7-4F87-908D-AB24C2436650}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{513C90B6-332D-46DB-9597-F24DC74D9BF6}"
+	ProjectSection(SolutionItems) = preProject
+		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject
 Global
