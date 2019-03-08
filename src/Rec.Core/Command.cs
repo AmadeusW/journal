@@ -7,8 +7,8 @@ namespace Rec.Core
     public abstract class Command
     {
         public DateTime RecordedDate { get; }
-        private string Kind { get; }
-        private string RecordedCommand { get; set; }
+        public string Kind { get; }
+        public string RecordedCommand { get; private set; }
 
         public Command(string raw, string kind)
         {
