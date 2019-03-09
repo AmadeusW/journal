@@ -6,5 +6,7 @@ namespace Rec.Core.Contracts
 {
     public interface ISerializer
     {
+        Command Deserialize(string serialized);
+        string Serialize(Command command);
     }
 }

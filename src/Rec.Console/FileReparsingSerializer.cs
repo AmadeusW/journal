@@ -11,15 +11,15 @@ namespace Rec.Cli
     /// <summary>
     /// Serializer which reparses commands upon load
     /// </summary>
-    class FileReparsingSerializer : ISerializer
+    class FileReparsingSerializer
     {
         private readonly string path;
-        private readonly CommandParser parser;
+        private readonly ISerializer serializer;
 
-        public FileReparsingSerializer(string path, CommandParser parser)
+        public FileReparsingSerializer(string path, ISerializer serializer)
         {
             this.path = path;
-            this.parser = parser;
+            this.serializer = serializer;
         }
 
         internal List<Command> Load()
@@ -29,13 +29,18 @@ namespace Rec.Cli
                 return new List<Command>();
             }
             var lines = File.ReadAllLines(this.path);
-            var commands = lines.Select(n => parser.Parse(n));
+            var commands = lines.Select(n => serializer.Deserialize(n));
             return commands.ToList();
         }
 
         internal void Save(Journal journal)
         {
             File.WriteAllLines(this.path, journal.Commands.Select(n => n.RecordedCommand));
+        }
+
+        internal void Save(Command command)
+        {
+            File.AppendAllLines(this.path, new string[] { serializer.Serialize(command) });
         }
     }
 }

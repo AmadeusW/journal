@@ -31,8 +31,18 @@ namespace Rec.Core
                 param += split[i] + " ";
             }
             param = param.TrimEnd();
-            // TODO: make action commands depending on kind
-            return new DataCommand(commandString, kind, applicableDate, topic, param);
+            
+            switch (kind)
+            {
+                case "log":
+                case "plan":
+                    return new DataCommand(commandString, kind, applicableDate, topic, param);
+                case "show":
+                    return new ActionCommand(commandString, kind, topic);
+                default:
+                    return null;
+            }
+            
         }
     }
 }

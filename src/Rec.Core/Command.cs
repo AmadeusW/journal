@@ -6,7 +6,7 @@ namespace Rec.Core
 {
     public abstract class Command
     {
-        public DateTime RecordedDate { get; }
+        public DateTime RecordedDate { get; internal set; }
         public string Kind { get; }
         public string RecordedCommand { get; private set; }
 
@@ -36,6 +36,11 @@ namespace Rec.Core
             if (endDate != default && endDate < RecordedDate)
                 return false;
             return true;
+        }
+
+        public override string ToString()
+        {
+            return $"{RecordedDate} - {RecordedCommand}";
         }
     }
 }

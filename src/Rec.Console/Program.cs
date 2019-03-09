@@ -1,4 +1,5 @@
 ﻿using Rec.Core;
+using Rec.Core.Serialization;
 using System;
 
 namespace Rec.Cli
@@ -10,7 +11,8 @@ namespace Rec.Cli
         {
             Console.WriteLine("Hello World!");
             var parser = new CommandParser();
-            var serializer = new FileReparsingSerializer("journal.txt", parser);
+            var commandSerializer = new StringSerializer(parser);
+            var serializer = new FileReparsingSerializer("journal.txt", commandSerializer);
             Console.WriteLine("Loading");
             var commands = serializer.Load();
             var journal = new Journal(commands);
@@ -32,11 +34,9 @@ namespace Rec.Cli
                 {
                     journal.Add(command);
                     engine.Invoke(command);
+                    serializer.Save(command);
                 }
             }
-
-            Console.WriteLine("Saving");
-            serializer.Save(journal);
             Console.WriteLine("Goodbye");
         }
     }

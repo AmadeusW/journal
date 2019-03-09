@@ -107,7 +107,7 @@ namespace Rec.Test
 
         private ActionCommand MakeAction(string kind)
         {
-            return new ActionCommand("n/a", kind);
+            return new ActionCommand("n/a", kind, string.Empty);
         }
     }
 }

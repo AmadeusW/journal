@@ -6,10 +6,12 @@ namespace Rec.Core
 {
     public class ActionCommand : Command
     {
-        public ActionCommand(string raw, string kind)
+        public string Param { get; }
+
+        public ActionCommand(string raw, string kind, string param)
             : base(raw, kind)
         {
-
+            Param = param;
         }
     }
 }
