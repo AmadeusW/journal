@@ -1,44 +1,37 @@
-Recorder
+Journal
 =
 
-Essential
-==
+Logging tool for everything. Quickly feed the data by typing. Retrieve and analyze recorded data.
 
-Record stores properties
-Commandline either invoke commands one by one
-or commandline interface for recording and querying
-Create calendar events
-Set custom date to recorded data
+**Essential**
+- Record stores properties
+- Commandline either invoke commands one by one
+- or commandline interface for recording and querying
+- Create calendar events
+- Set custom date to recorded data
 
-Nice
-==
-Record autocompletes properties
-Record does not create new properties
-Record behavior is configurable
+**Nice to have**
+- Record autocompletes properties
+- Record does not create new properties
+- Record behavior is configurable
+- Make it possible to fix the list of things I'm recording, so that typos don't happen (or use –f)
+- Or alternatively, if a new subject is created, we check if there is another subject which might be a good fit.
+- Authorization, encryption
 
-Make it possible to fix the list of things I'm recording, so that typos don't happen (or use –f)
-Or alternatively, if a new subject is created, we check if there is another subject which might be a good fit.
+**Extensibility**
+- Kiril's extremely nice and easy extensibility: https://github.com/KirillOsenkov/QuickInfo/blob/master/src/QuickInfo/Engine.cs
 
-Authorization, encryption
+**Examples**
+The syntax of notes is `verb parameters @date #place`
 
-Extensibility
-==
-Kiril's extremely nice and easy extensibility: https://github.com/KirillOsenkov/QuickInfo/blob/master/src/QuickInfo/Engine.cs
+```
+run (implicitly today)
+run yesterday
 
-Examples
-==
-
-note topic message
-
-log topic [value] [@when]
-log run (implicitly today)
-log yesterday run
-
-plan what [@when]
-plan friday climb
+plan climb @friday
 plan email foo bar baz (implicitly today)
-plan tomorrow email foo bar baz
-plan 3.15 email foo bar baz
+plan email foo bar baz @tomorrow
+plan email foo bar baz @3.15
 
 show [topic] [@when]
 find [topic or value] [@when]
@@ -62,3 +55,4 @@ plan email foo bar baz -t 3.15
 log climb -t -2d
 
 Note record https://github.com/KirillOsenkov/QuickInfo/blob/master/src/QuickInfo/Engine.cs // Should add the hyperlink to my "record" set of notes
+```
