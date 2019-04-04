@@ -1,7 +1,12 @@
 Journal
 =
 
-Logging tool for everything. Quickly feed the data by typing. Retrieve and analyze recorded data.
+Logging tool for every day and every thing. Quickly feed the data by typing. Retrieve and analyze recorded data.
+
+The syntax of entries is `verb parameters @date #place` with everything optional except for the verb.
+All entries are event sourced, that is, persisted in their raw form. This allows recording entries in the journal before their implementation or reading capability has been implemented.
+
+Early ramblings:
 
 **Essential**
 - Record stores properties
@@ -22,7 +27,7 @@ Logging tool for everything. Quickly feed the data by typing. Retrieve and analy
 - Kiril's extremely nice and easy extensibility: https://github.com/KirillOsenkov/QuickInfo/blob/master/src/QuickInfo/Engine.cs
 
 **Examples**
-The syntax of notes is `verb parameters @date #place`
+
 
 ```
 run (implicitly today)
