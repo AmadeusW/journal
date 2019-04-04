@@ -1,4 +1,5 @@
-﻿using Rec.Core.Contracts;
+﻿using Rec.Core.Commands;
+using Rec.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,9 +19,7 @@ namespace Rec.Core.Serialization
         {
             var split = serialized.Split(';');
             var recordedDate = DateTime.Parse(split[0]);
-            var command = this.parser.Parse(split[1]);
-            command.RecordedDate = recordedDate;
-            //Console.WriteLine($"Read - {command}");
+            var command = this.parser.Parse(split[1], recordedDate);
             return command;
         }
 

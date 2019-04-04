@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Rec.Core.Commands;
 
 namespace Rec.Core
 {
@@ -23,17 +23,17 @@ namespace Rec.Core
             _commands.Add(command);
         }
 
-        public IEnumerable<DataCommand> GetData(
-            string topic = default, 
+        public IEnumerable<Recording> GetData(
+            string kind = default, 
             DateTime startDate = default, 
             DateTime endDate = default)
         {
             for (int i = 0; i < _commands.Count; i++)
             {
-                if (!(_commands[i] is DataCommand command))
+                if (!(_commands[i] is Recording command))
                     continue;
 
-                if (!command.MatchesTopic(topic))
+                if (!command.MatchesVerb(kind))
                     continue;
 
                 if (!command.MatchesApplicableDate(startDate, endDate))
@@ -52,10 +52,10 @@ namespace Rec.Core
             {
                 var command = _commands[i];
 
-                if (!command.MatchesKind(kind))
+                if (!command.MatchesVerb(kind))
                     continue;
 
-                if (!command.MatchesRecordedDate(startDate, endDate))
+                if (!command.MatchesApplicableDate(startDate, endDate))
                     continue;
 
                 yield return command;

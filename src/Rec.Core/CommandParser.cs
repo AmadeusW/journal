@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+using Rec.Core.Commands;
 
 namespace Rec.Core
 {
@@ -12,35 +10,88 @@ namespace Rec.Core
 
         }
 
-        public Command Parse(string commandString)
+        public Command Parse(string commandString, DateTime recordedDate)
         {
-            var split = commandString.Split(' ');
-            string kind = split[0];
-            string topic = split[1];
+            var split = commandString.Split(new[] { ' ', '-'});
+            string verb = split[0];
             string param = string.Empty;
+            double paramNumber = 0;
+            string date = string.Empty;
+            string date2 = string.Empty;
+            string place = string.Empty;
+            string place2 = string.Empty;
             DateTime applicableDate = default;
+            DateTime applicableDate2 = default;
 
-            for (int i = 2; i < split.Length; i++)
+            bool parsingData = true;
+            bool parsingDate = false;
+            bool parsingPlace = false;
+            bool parsingSecond = true;
+
+            for (int i = 1; i < split.Length; i++)
             {
-                if (split[i].StartsWith("@"))
+                var trimmed = split[i].Trim();
+                if (string.IsNullOrEmpty(trimmed))
+                    continue;
+
+                if (trimmed.StartsWith("@"))
                 {
-                    var dateString = split[i].Substring(1);
-                    applicableDate = DateTime.Parse(dateString);
-                    break;
+                    parsingData = false;
+                    parsingDate = true;
+                    parsingPlace = false;
+                    parsingSecond = false;
                 }
-                param += split[i] + " ";
+                else if (trimmed.StartsWith("#"))
+                {
+                    parsingData = false;
+                    parsingDate = false;
+                    parsingPlace = true;
+                    parsingSecond = false;
+                }
+                else if (trimmed.StartsWith("-"))
+                {
+                    parsingSecond = true;
+                }
+
+                if (parsingData)
+                {
+                    param += trimmed + " ";
+                }
+                else if (parsingDate)
+                {
+                    if (trimmed.StartsWith("@"))
+                        trimmed = trimmed.Substring(1);
+
+                    if (parsingSecond)
+                        date2 += trimmed + " ";
+                    else
+                        date += trimmed + " ";
+                }
+                else if (parsingPlace)
+                {
+                    if (parsingSecond)
+                        place2 += trimmed + " ";
+                    else
+                        place += trimmed + " ";
+                }
             }
+
             param = param.TrimEnd();
-            
-            switch (kind)
+            Double.TryParse(param, out paramNumber);
+            DateTime.TryParse(date, out applicableDate);
+            DateTime.TryParse(date2, out applicableDate2);
+            place = place.TrimEnd();
+            place2 = place2.TrimEnd();
+
+            switch (verb)
             {
-                case "log":
                 case "plan":
-                    return new DataCommand(commandString, kind, applicableDate, topic, param);
                 case "show":
-                    return new ActionCommand(commandString, kind, topic);
+                case "list":
+                    // TODO: use a factory which creates a command based on the verb
+                    return new GenericAction(commandString, verb, param, paramNumber, applicableDate, applicableDate2, place, place2);
                 default:
-                    return null;
+                    return new Recording(commandString, verb, param, paramNumber, applicableDate, applicableDate2, place, place2);
             }
             
         }

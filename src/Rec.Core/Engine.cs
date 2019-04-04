@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rec.Core.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,20 +17,19 @@ namespace Rec.Core
 
         public void Invoke(Command command)
         {
-            if (!(command is ActionCommand action))
+            if (!(command is GenericAction action))
             {
                 return;
             }
 
-            if (action.MatchesKind("show"))
+            if (command.MatchesVerb("show") || command.MatchesVerb("list"))
             {
-                var topic = action.Param;
-                Console.WriteLine($"Showing {topic}");
+                Console.WriteLine($"Showing {action.Param}");
 
                 var matchingCommands = journal.Commands
-                    .Select(n => n as DataCommand)
+                    .Select(n => n as Recording)
                     .Where(n => n != null)
-                    .Where(n => n.MatchesTopic(topic));
+                    .Where(n => n.MatchesParam(action.Param) || n.MatchesVerb(action.Param));
                 foreach (var match in matchingCommands)
                 {
                     Console.WriteLine(match.ToString());

@@ -5,6 +5,7 @@ using System.IO;
 using Rec.Core;
 using Rec.Core.Contracts;
 using System.Linq;
+using Rec.Core.Commands;
 
 namespace Rec.Cli
 {
