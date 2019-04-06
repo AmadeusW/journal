@@ -89,9 +89,9 @@ namespace Rec.Core
                 case "show":
                 case "list":
                     // TODO: use a factory which creates a command based on the verb
-                    return new GenericAction(commandString, verb, param, paramNumber, applicableDate, applicableDate2, place, place2);
+                    return new GenericAction(commandString, recordedDate, verb, param, paramNumber, applicableDate, applicableDate2, place, place2);
                 default:
-                    return new Recording(commandString, verb, param, paramNumber, applicableDate, applicableDate2, place, place2);
+                    return new Recording(commandString, recordedDate, verb, param, paramNumber, applicableDate, applicableDate2, place, place2);
             }
             
         }

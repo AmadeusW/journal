@@ -17,7 +17,7 @@ namespace Rec.Core.Commands
         public string RecordedCommand { get; }
         public DateTime RecordedDate { get; }
 
-        public Command(string raw, string verb, string param, double paramNumber, DateTime applicableDate, DateTime applicableDate2, string place, string place2)
+        public Command(string raw, DateTime recordedDate, string verb, string param, double paramNumber, DateTime applicableDate, DateTime applicableDate2, string place, string place2)
         {
             if (String.IsNullOrWhiteSpace(verb))
                 throw new ArgumentNullException(nameof(verb));
@@ -26,6 +26,7 @@ namespace Rec.Core.Commands
             if (String.IsNullOrWhiteSpace(raw))
                 throw new ArgumentNullException(nameof(raw));
             RecordedCommand = raw;
+            RecordedDate = recordedDate;
 
             this.Param = param;
             this.ParamNumber = paramNumber;

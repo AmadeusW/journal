@@ -17,16 +17,28 @@ namespace Rec.Core.Serialization
 
         Command ISerializer.Deserialize(string serialized)
         {
-            var split = serialized.Split(';');
-            var recordedDate = DateTime.Parse(split[0]);
-            var command = this.parser.Parse(split[1], recordedDate);
-            return command;
+            serialized = serialized.Trim();
+            if (string.IsNullOrWhiteSpace(serialized))
+                return null;
+
+            try
+            {
+                var split = serialized.Split(';');
+                var recordedDate = DateTime.Parse(split[0]);
+                var command = this.parser.Parse(split[1], recordedDate);
+                return command;
+            }
+            catch
+            {
+                // Probably do some logging
+                return null;
+            }
         }
 
         string ISerializer.Serialize(Command command)
         {
             //Console.WriteLine($"Write - {command}");
-            return command.RecordedDate.ToLongDateString()
+            return command.RecordedDate.ToString("o")
                 + ";"
                 + command.RecordedCommand;
         }

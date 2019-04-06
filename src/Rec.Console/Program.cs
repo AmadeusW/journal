@@ -25,7 +25,7 @@ namespace Rec.Cli
                 if (string.Equals(query, "exit", StringComparison.InvariantCultureIgnoreCase))
                     break;
 
-                var command = parser.Parse(query, DateTime.UtcNow);
+                var command = parser.Parse(query, DateTime.Now);
                 if (command == null)
                 {
                     Console.WriteLine("Error parsing query");

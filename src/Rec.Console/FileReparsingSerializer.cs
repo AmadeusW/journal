@@ -31,7 +31,7 @@ namespace Rec.Cli
             }
             var lines = File.ReadAllLines(this.path);
             var commands = lines.Select(n => serializer.Deserialize(n));
-            return commands.ToList();
+            return commands.Where(n => n != null).ToList();
         }
 
         internal void Save(Journal journal)
