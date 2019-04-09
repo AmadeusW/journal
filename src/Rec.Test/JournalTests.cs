@@ -104,12 +104,12 @@ namespace Rec.Test
         {
             if (applicableDate == default)
                 applicableDate = DateTime.UtcNow;
-            return new Recording("n/a", verb, param, 0, applicableDate, default, place, string.Empty);
+            return new Recording("n/a", DateTime.Now, verb, "", param, 0, applicableDate, default, place, string.Empty);
         }
 
         private GenericAction MakeAction(string verb, string param = "", DateTime applicableDate = default, string place = "")
         {
-            return new GenericAction("n/a", verb, param, 0, applicableDate, default, place, string.Empty);
+            return new GenericAction("n/a", DateTime.Now, verb, param, 0, applicableDate, default, place, string.Empty);
         }
     }
 }

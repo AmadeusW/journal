@@ -7,6 +7,7 @@ namespace Rec.Core.Commands
     public abstract class Command
     {
         public string Verb { get; }
+        public string ReasonRecorded { get; }
         public string Param { get; }
         public double ParamNumber { get; }
         public DateTime ApplicableDate { get; }
@@ -17,29 +18,31 @@ namespace Rec.Core.Commands
         public string RecordedCommand { get; }
         public DateTime RecordedDate { get; }
 
-        public Command(string raw, DateTime recordedDate, string verb, string param, double paramNumber, DateTime applicableDate, DateTime applicableDate2, string place, string place2)
+        public Command(string raw, DateTime recordedDate, string verb, string reasonRecorded, string param, double paramNumber, DateTime applicableDate, DateTime applicableDate2, string place, string place2)
         {
             if (String.IsNullOrWhiteSpace(verb))
                 throw new ArgumentNullException(nameof(verb));
             Verb = verb;
+            ReasonRecorded = reasonRecorded ?? string.Empty;
 
             if (String.IsNullOrWhiteSpace(raw))
                 throw new ArgumentNullException(nameof(raw));
             RecordedCommand = raw;
             RecordedDate = recordedDate;
 
-            this.Param = param;
+            this.Param = param ?? string.Empty;
             this.ParamNumber = paramNumber;
             this.ApplicableDate = applicableDate;
             this.ApplicableDate2 = applicableDate2;
-            this.Place = place;
-            this.Place2 = place2;
+            this.Place = place ?? string.Empty;
+            this.Place2 = place2 ?? string.Empty;
         }
 
         internal bool MatchesVerb(string query)
         {
             return string.IsNullOrEmpty(query)
-                || string.Equals(Verb, query, StringComparison.InvariantCultureIgnoreCase);
+                || string.Equals(Verb, query, StringComparison.InvariantCultureIgnoreCase)
+                || string.Equals(ReasonRecorded, query, StringComparison.InvariantCultureIgnoreCase);
         }
 
         internal bool MatchesApplicableDate(DateTime startDate, DateTime endDate)

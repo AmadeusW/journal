@@ -78,6 +78,7 @@ namespace Rec.Core
 
             param = param.TrimEnd();
             Double.TryParse(param, out paramNumber);
+            // If date has space, try parsing elements separately
             DateTime.TryParse(date, out applicableDate);
             DateTime.TryParse(date2, out applicableDate2);
             place = place.TrimEnd();
@@ -86,12 +87,30 @@ namespace Rec.Core
             switch (verb)
             {
                 case "plan":
+                case "remember":
+                case "log":
+                    var indexOfParamSpace = param.IndexOf(' ');
+                    string recordedVerb;
+                    string reasonRecorded = verb;
+                    if (indexOfParamSpace == -1)
+                    {
+                        recordedVerb = param;
+                        param = string.Empty;
+                        paramNumber = 0;
+                    }
+                    else
+                    {
+                        recordedVerb = param.Substring(0, indexOfParamSpace);
+                        param = param.Substring(indexOfParamSpace + 1);
+                        Double.TryParse(param, out paramNumber);
+                    }
+                    return new Recording(commandString, recordedDate, recordedVerb, reasonRecorded, param, paramNumber, applicableDate, applicableDate2, place, place2);
                 case "show":
                 case "list":
                     // TODO: use a factory which creates a command based on the verb
                     return new GenericAction(commandString, recordedDate, verb, param, paramNumber, applicableDate, applicableDate2, place, place2);
                 default:
-                    return new Recording(commandString, recordedDate, verb, param, paramNumber, applicableDate, applicableDate2, place, place2);
+                    return new Recording(commandString, recordedDate, verb, string.Empty, param, paramNumber, applicableDate, applicableDate2, place, place2);
             }
             
         }

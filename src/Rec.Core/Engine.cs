@@ -24,6 +24,9 @@ namespace Rec.Core
 
             if (command.MatchesVerb("show") || command.MatchesVerb("list"))
             {
+                // TODO: This should go to implementation of ListAction
+                // TODO: the action should search through both verbs and params using not-exact match,
+                // because "plan gardening supplies" converts to verb:gardening, param:supplies, and query "garden" does not exactly match the verb
                 Console.WriteLine($"Showing {action.Param}");
 
                 var matchingCommands = journal.Commands
