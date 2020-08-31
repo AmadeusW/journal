@@ -10,14 +10,16 @@ namespace Journal.Core
         public string[] Parts {get;}
 
         public Query(string rawText, string userId)
-            : this(rawText, userId, DateTime.UtcNow);
+            : this(rawText, userId, DateTime.UtcNow)
+        {
+        }
 
         public Query(string rawText, string userId, DateTime timestamp)
         {
             this.RawText = rawText ?? throw new ArgumentNullException(nameof(rawText));
             this.UserId = userId ?? throw new ArgumentNullException(nameof(userId));
-            this.TimeStamp = timestamp;
-            this.Parts = string.Split(rawText.Trim(), ' ');
+            this.Timestamp = timestamp;
+            this.Parts = rawText.Trim().Split(' ');
         }
     }
 }

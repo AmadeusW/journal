@@ -15,21 +15,21 @@ namespace Journal.Core
         {
             foreach (var parser in this.Composition.Parsers)
             {
-                var command = parser.Deserialize(query.Text);
+                var command = parser.Parse(query);
                 if (command != null)
                 {
-                    command.Process(query);
                     if (command is WriteCommand write)
                     {
                         // Persist the data
                         // Also journal the command itself
-                        CommandJournal.Add(command);
+                        //CommandJournal.Add(command);
                     }
                     if (command is ActionCommand action)
                     {
                         // Invoke the action
                         // Don't record this command
                     }
+                    break;
                 }
             }
         }

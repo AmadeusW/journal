@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Journal.Core
 {
@@ -6,7 +9,7 @@ namespace Journal.Core
     public class Composition
     {
         private List<IParser> parsers = new List<IParser>();
-        public IParser Parsers => parsers;
+        public IEnumerable<IParser> Parsers => parsers;
 
         public Composition() : this(new[] { typeof(Composition).Assembly })
         {

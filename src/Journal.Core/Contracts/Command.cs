@@ -4,7 +4,7 @@ namespace Journal.Core
 {
     public abstract class Command
     {
-        DateTime Timestamp {get;}
+        protected DateTime Timestamp {get;}
 
         public Command(Query query)
         {
@@ -14,11 +14,13 @@ namespace Journal.Core
 
     public abstract class WriteCommand : Command
     {
-        void Save(Query query);
+        public WriteCommand(Query query) : base(query) { }
+        public abstract void Save(Query query);
     }
 
     public abstract class ActionCommand : Command
     {
-        void Execute();
+        public ActionCommand(Query query) : base(query) { }
+        public abstract void Execute();
     }
 }

@@ -8,10 +8,10 @@ namespace Journal.Core.Commands
         {
             if (query.Parts.Length != 2)
                 return null;
-            return new KeyValueCommand(query.parts[0], query.parts[1], query);
+            return new KeyValueCommand(query, query.Parts[0], query.Parts[1]);
         }
 
-        public string Describe => "<key> <value>";
+        public string Description => "<key> <value>";
     }
 
     // TODO: this requires an interface so that it can be composed
@@ -26,7 +26,7 @@ namespace Journal.Core.Commands
             this.Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public void Save()
+        public override void Save(Query query)
         {
             // TODO: a way to persist this data
         }
